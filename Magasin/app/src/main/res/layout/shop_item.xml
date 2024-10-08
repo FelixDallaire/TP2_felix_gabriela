@@ -7,7 +7,7 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/product_image"
+        android:id="@+id/iv_product_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:contentDescription="Image du produit"
@@ -17,7 +17,7 @@
         android:src="@drawable/ic_launcher_background" />
 
     <TextView
-        android:id="@+id/product_name"
+        android:id="@+id/tv_product_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="8dp"
@@ -28,11 +28,11 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/product_image"
+        app:layout_constraintStart_toEndOf="@id/iv_product_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/product_description"
+        android:id="@+id/tv_product_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Description du produit ici"
@@ -40,24 +40,24 @@
         android:textColor="@android:color/secondary_text_dark"
         android:maxLines="2"
         android:ellipsize="end"
-        app:layout_constraintTop_toBottomOf="@id/product_name"
-        app:layout_constraintStart_toEndOf="@id/product_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_product_name"
+        app:layout_constraintStart_toEndOf="@id/iv_product_image"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingStart="8dp"
         android:paddingEnd="8dp" />
 
     <TextView
-        android:id="@+id/product_price"
+        android:id="@+id/tv_product_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:text="Prix : 99.99 $"
-        android:textColor="@android:color/system_neutral1_600"
+        android:textColor="@color/material_dynamic_neutral40"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/product_image"
-        app:layout_constraintTop_toBottomOf="@id/product_description" />
+        app:layout_constraintStart_toEndOf="@id/iv_product_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_product_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
