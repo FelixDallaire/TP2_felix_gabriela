@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.magasin.R
 import com.example.magasin.databinding.ShopItemBinding
+import com.example.magasin.model.ShopItem
 
-class ShopAdapter(private val shopItems: List<ShopItem>) :
+class ShopAdapter(private var shopItems: MutableList<ShopItem>) : // Changed to MutableList
     RecyclerView.Adapter<ShopAdapter.ViewHolder>() {
 
     interface OnItemClickListenerInterface {
@@ -22,21 +22,26 @@ class ShopAdapter(private val shopItems: List<ShopItem>) :
         this.listener = listener
     }
 
+    fun updateItems(newItems: List<ShopItem>) {
+        shopItems.clear()
+        shopItems.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(private val binding: ShopItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.root.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(itemView, adapterPosition);
-
+                    listener.onItemClick(itemView, adapterPosition)
                 }
             }
 
             binding.root.setOnCreateContextMenuListener { menu, v, menuInfo ->
                 val position = adapterPosition
-                val edit: android.view.MenuItem = menu.add(0, v.id, 0, R.string.action_edit)
-                val delete: android.view.MenuItem = menu.add(0, v.id, 0, R.string.action_delete)
+                val edit: android.view.MenuItem = menu.add(0, v.id, 0, "Edit") // Changed for example
+                val delete: android.view.MenuItem = menu.add(0, v.id, 0, "Delete") // Changed for example
                 edit.setOnMenuItemClickListener {
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onClickEdit(itemView, position)
@@ -56,23 +61,19 @@ class ShopAdapter(private val shopItems: List<ShopItem>) :
             binding.tvProductName.text = shopItem.name
             binding.tvProductDescription.text = shopItem.description
             binding.tvProductPrice.text = String.format("%.2f", shopItem.price)
-            // TODO: Add images
+            // TODO: Add image handling if needed
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ShopItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val shopItem: ShopItem = shopItems[position]
+        val shopItem = shopItems[position]
         holder.bind(shopItem)
     }
 
-    override fun getItemCount(): Int {
-        return shopItems.size
-    }
-
+    override fun getItemCount(): Int = shopItems.size
 }
