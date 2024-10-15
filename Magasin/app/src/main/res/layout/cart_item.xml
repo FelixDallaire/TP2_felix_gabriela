@@ -14,7 +14,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="items"/>
+                android:text=""/>
             <TextView
                 android:id="@+id/text_quantity"
                 android:layout_width="wrap_content"

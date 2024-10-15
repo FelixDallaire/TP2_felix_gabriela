@@ -36,14 +36,12 @@ class CartFragment : Fragment() {
         binding.rvItems.setHasFixedSize(true)
 
         val Items = ShopItem(1,"item", "",10.0,"",1, "")
+        val Iteme = ShopItem(2,"chevalamp", "",10.0,"",100, "")
 
         mItemList = ArrayList<ShopItem>()
 
         mItemList.add(Items)
-        mItemList.add(Items)
-        mItemList.add(Items)
-        mItemList.add(Items)
-        mItemList.add(Items)
+        mItemList.add(Iteme)
 
         Log.d("CartFragment",mItemList.toString())
 
@@ -51,7 +49,11 @@ class CartFragment : Fragment() {
 
         cartAdapter = CartAdapter(mItemList)
 
-        binding.tvTotal.text =(0).toString()
+        var coutTotal : Double = 0.0
+
+        mItemList.forEach { item-> coutTotal += item.price * item.quantity }
+
+        binding.tvTotal.text =(coutTotal).toString()
 
         binding.rvItems.adapter = cartAdapter
         Log.d("CartFragment", "LinearLayoutManager has been set")
