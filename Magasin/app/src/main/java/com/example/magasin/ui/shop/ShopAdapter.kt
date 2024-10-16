@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.magasin.databinding.ShopItemBinding
 import com.example.magasin.model.ShopItem
 
-class ShopAdapter(private var shopItems: MutableList<ShopItem>) : // Changed to MutableList
+class ShopAdapter(private var shopItems: MutableList<ShopItem>) :
     RecyclerView.Adapter<ShopAdapter.ViewHolder>() {
 
     interface OnItemClickListenerInterface {
