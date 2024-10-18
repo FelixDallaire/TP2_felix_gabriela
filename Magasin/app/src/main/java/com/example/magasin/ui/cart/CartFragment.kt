@@ -53,7 +53,7 @@ class CartFragment : Fragment() {
 
         mItemList.forEach { item-> coutTotal += item.price * item.quantity }
 
-        binding.tvTotal.text =(coutTotal).toString()
+        binding.tvTotal.text = "Coût total: " + String.format("%.2f", coutTotal) + "$"
 
         binding.rvItems.adapter = cartAdapter
         Log.d("CartFragment", "LinearLayoutManager has been set")
