@@ -36,29 +36,54 @@ abstract class MagasinDatabase : RoomDatabase() {
                                 CoroutineScope(Dispatchers.IO).launch {
                                     val shopItems = listOf(
                                         ShopItem(
-                                            name = "Item 1",
-                                            description = "Description for Item 1",
-                                            price = 10.99,
-                                            category = "Category 1",
+                                            name = "Gourde Éco-responsable",
+                                            description = "Gourde de 24 oz, sans BPA, en acier inoxydable, conçue pour garder les boissons froides jusqu'à 48 heures.",
+                                            price = 25.99,
+                                            category = "Produits Écologiques",
                                             quantity = 5,
-                                            image = "image1.png"
+                                            image = "eco_bottle.png"
                                         ),
                                         ShopItem(
-                                            name = "Item 2",
-                                            description = "Description for Item 2",
-                                            price = 20.99,
-                                            category = "Category 2",
+                                            name = "T-shirt en Coton Biologique",
+                                            description = "T-shirt doux, 100% coton biologique, en gris charbon, parfait pour les sorties décontractées ou formelles.",
+                                            price = 30.99,
+                                            category = "Vêtements",
                                             quantity = 3,
-                                            image = "image2.png"
+                                            image = "organic_tshirt.png"
                                         ),
                                         ShopItem(
-                                            name = "Item 3",
-                                            description = "Description for Item 3",
-                                            price = 15.99,
-                                            category = "Category 3",
+                                            name = "Clavier Sans Fil en Bambou",
+                                            description = "Clavier durable en bambou avec connectivité Bluetooth, compatible avec plusieurs systèmes d'exploitation.",
+                                            price = 45.99,
+                                            category = "Électronique",
                                             quantity = 10,
-                                            image = "image3.png"
+                                            image = "bamboo_keyboard.png"
+                                        ),
+                                        ShopItem(
+                                            name = "Pot en Céramique Artisanal",
+                                            description = "Pot en céramique fait main avec une glaçure artistique, idéal pour les plantes d'intérieur et d'extérieur.",
+                                            price = 34.99,
+                                            category = "Décor Maison",
+                                            quantity = 7,
+                                            image = "ceramic_planter.png"
+                                        ),
+                                        ShopItem(
+                                            name = "Sac à Dos en Cuir Végan",
+                                            description = "Sac à dos durable et élégant fabriqué à partir de cuir végan de haute qualité avec plusieurs poches.",
+                                            price = 52.99,
+                                            category = "Accessoires",
+                                            quantity = 4,
+                                            image = "vegan_backpack.png"
+                                        ),
+                                        ShopItem(
+                                            name = "Grains de Café Gourmet",
+                                            description = "1 lb de grains de café Arabica de première qualité, approvisionnés de manière éthique et torréfiés frais pour garantir la meilleure saveur.",
+                                            price = 17.99,
+                                            category = "Alimentation Gourmet",
+                                            quantity = 15,
+                                            image = "coffee_beans.png"
                                         )
+
                                     )
 
                                     database.shopItemDao().insertShopItems(shopItems)
