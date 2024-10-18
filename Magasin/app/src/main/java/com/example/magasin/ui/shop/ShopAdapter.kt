@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.magasin.databinding.ShopItemBinding
 import com.example.magasin.model.ShopItem
 
-class ShopAdapter(private var shopItems: MutableList<ShopItem>) :
+class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
     RecyclerView.Adapter<ShopAdapter.ViewHolder>() {
 
     interface OnItemClickListenerInterface {
@@ -40,8 +40,8 @@ class ShopAdapter(private var shopItems: MutableList<ShopItem>) :
 
             binding.root.setOnCreateContextMenuListener { menu, v, menuInfo ->
                 val position = adapterPosition
-                val edit: android.view.MenuItem = menu.add(0, v.id, 0, "Edit") // Changed for example
-                val delete: android.view.MenuItem = menu.add(0, v.id, 0, "Delete") // Changed for example
+                val edit: android.view.MenuItem = menu.add(0, v.id, 0, "Edit")
+                val delete: android.view.MenuItem = menu.add(0, v.id, 0, "Delete")
                 edit.setOnMenuItemClickListener {
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onClickEdit(itemView, position)
