@@ -1,6 +1,7 @@
 package com.example.magasin.ui.cart
 
 import CartViewModel
+import MainViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,29 +18,40 @@ class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var cartViewModel: CartViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var cartAdapter: CartAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
-        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
+        return binding.root
+    }
 
-        // Initialize the RecyclerView
-        binding.rvCartItems.layoutManager = LinearLayoutManager(context)
-        binding.rvCartItems.setHasFixedSize(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Observe the LiveData from ViewModel
-        cartViewModel.cartItems.observe(viewLifecycleOwner) { items ->
-            cartAdapter = CartAdapter(items)
-            binding.rvCartItems.adapter = cartAdapter
+        // Initialize the ViewModel
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+        setupRecyclerView()
+
+        // Observe changes in the cart items
+        mainViewModel.cartItems.observe(viewLifecycleOwner) { items ->
+            cartAdapter.cartItems = items
+            cartAdapter.notifyDataSetChanged()
             updateTotalPrice(items)
         }
+    }
 
-        return binding.root
+    private fun setupRecyclerView() {
+        cartAdapter = CartAdapter(mutableListOf())
+        binding.rvCartItems.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = cartAdapter
+        }
     }
 
     private fun updateTotalPrice(items: List<ShopItem>) {

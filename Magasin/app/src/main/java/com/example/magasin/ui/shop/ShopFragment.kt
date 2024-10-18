@@ -1,5 +1,6 @@
 package com.example.magasin.ui.shop
 
+import MainViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ class ShopFragment : Fragment() {
 
     private lateinit var shopViewModel: ShopViewModel
     private lateinit var shopAdapter: ShopAdapter
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +42,9 @@ class ShopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize the MainViewModel
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
         shopViewModel.shopItems.observe(viewLifecycleOwner) { items ->
             shopAdapter.updateItems(items)
         }
@@ -49,15 +54,16 @@ class ShopFragment : Fragment() {
         shopAdapter = ShopAdapter(mutableListOf()).apply {
             setOnItemClickListener(object : ShopAdapter.OnItemClickListenerInterface {
                 override fun onItemClick(itemView: View?, position: Int) {
-                    println("Item at position $position clicked")
+                    val item = shopAdapter.shopItems[position]
+                    mainViewModel.addToCart(item)
                 }
 
                 override fun onClickEdit(itemView: View, position: Int) {
-                    println("Edit item at position $position")
+                    // Edit logic
                 }
 
                 override fun onClickDelete(position: Int) {
-                    println("Delete item at position $position")
+                    // Delete logic
                 }
             })
         }

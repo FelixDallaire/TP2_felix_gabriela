@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.magasin.databinding.CartItemBinding
 import com.example.magasin.model.ShopItem
 
-class CartAdapter(private var cartItems: List<ShopItem>) :
+class CartAdapter(var cartItems: MutableList<ShopItem>) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,14 +21,11 @@ class CartAdapter(private var cartItems: List<ShopItem>) :
 
     override fun getItemCount(): Int = cartItems.size
 
-    class ViewHolder(private val binding: CartItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: CartItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cartItem: ShopItem) {
             binding.tvCartProductName.text = cartItem.name
             binding.tvCartProductQuantity.text = "Qty: ${cartItem.quantity}"
-            binding.tvCartProductPrice.text = String.format("$%.2f", cartItem.price)
-            // If images are part of the ShopItem, you could handle them here
-            // Example: binding.ivCartItemImage.setImageResource(getImageResourceId(cartItem.image))
+            binding.tvCartProductPrice.text = String.format("$%.2f", cartItem.price * cartItem.quantity)
         }
     }
 }
