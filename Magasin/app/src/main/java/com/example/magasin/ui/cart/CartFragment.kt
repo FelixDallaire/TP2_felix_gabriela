@@ -1,25 +1,24 @@
 package com.example.magasin.ui.cart
 
+import CartViewModel
+import MainViewModel
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.magasin.R
 import com.example.magasin.databinding.FragmentCartBinding
 import com.example.magasin.model.ShopItem
-import com.example.magasin.ui.shop.ShopAdapter
-import java.util.ArrayList
 
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var mItemList: MutableList<ShopItem>
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var cartAdapter: CartAdapter
 
     override fun onCreateView(
@@ -27,41 +26,37 @@ class CartFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val cartViewModel =
-            ViewModelProvider(this).get(CartViewModel::class.java)
-
         _binding = FragmentCartBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        binding.rvItems.setHasFixedSize(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val Items = ShopItem(1,"item", "",10.0,"",1, "")
-        val Iteme = ShopItem(2,"chevalamp", "",10.0,"",100, "")
+        // Initialize the ViewModel
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
-        mItemList = ArrayList<ShopItem>()
+        setupRecyclerView()
 
-        mItemList.add(Items)
-        mItemList.add(Iteme)
+        // Observe changes in the cart items
+        mainViewModel.cartItems.observe(viewLifecycleOwner) { items ->
+            cartAdapter.cartItems = items
+            cartAdapter.notifyDataSetChanged()
+            updateTotalPrice(items)
+        }
+    }
 
-        Log.d("CartFragment",mItemList.toString())
+    private fun setupRecyclerView() {
+        cartAdapter = CartAdapter(mutableListOf())
+        binding.rvCartItems.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = cartAdapter
+        }
+    }
 
-
-
-        cartAdapter = CartAdapter(mItemList)
-
-        var coutTotal : Double = 0.0
-
-        mItemList.forEach { item-> coutTotal += item.price * item.quantity }
-
-        binding.tvTotal.text =(coutTotal).toString()
-
-        binding.rvItems.adapter = cartAdapter
-        Log.d("CartFragment", "LinearLayoutManager has been set")
-
-        binding.rvItems.layoutManager = LinearLayoutManager(context)
-
-
-        return root
+    private fun updateTotalPrice(items: List<ShopItem>) {
+        val total = items.sumOf { it.price * it.quantity }
+        binding.tvTotalPrice.text = getString(R.string.total_price, total)
     }
 
     override fun onDestroyView() {
