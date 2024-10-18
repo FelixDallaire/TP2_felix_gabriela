@@ -17,17 +17,27 @@ class wvMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    val bundle = Bundle()
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("marche","22")
+        Log.d("marche", "27")
+
+        bundle.putBoolean("isAdmin", false)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d("marche", "34")
+
 
         val navView: BottomNavigationView = binding.navView
+
+        Log.d("marche", "38")
+
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
@@ -39,14 +49,28 @@ class wvMainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        Log.d("marche", "54")
+
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true}
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d("marche", "60")
+
+        var isAdmin = bundle.getBoolean("isAdmin")
         when (item.itemId) {
             R.id.mn_admin -> {
-                Toast.makeText(this, "admin", Toast.LENGTH_SHORT).show()
+                if (isAdmin)
+                    bundle.putBoolean("isAdmin",false)
+                else
+                    bundle.putBoolean("isAdmin",true)
                 return true         }
-            else -> return super.onOptionsItemSelected(item)     } }
+            else -> {return super.onOptionsItemSelected(item)}
+
+        }
+
+}
 }

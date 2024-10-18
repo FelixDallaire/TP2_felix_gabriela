@@ -20,6 +20,8 @@ class ShopFragment : Fragment() {
     private lateinit var shopViewModel: ShopViewModel
     private lateinit var shopAdapter: ShopAdapter
 
+    val bundle = Bundle()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +36,9 @@ class ShopFragment : Fragment() {
 
         setupRecyclerView()
 
+        if (bundle.getBoolean("isAdmin"))
+            binding.floatingActionButton.hide()
+
         return binding.root
     }
 
@@ -46,21 +51,25 @@ class ShopFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        shopAdapter = ShopAdapter(mutableListOf()).apply {
-            setOnItemClickListener(object : ShopAdapter.OnItemClickListenerInterface {
-                override fun onItemClick(itemView: View?, position: Int) {
-                    println("Item at position $position clicked")
-                }
 
-                override fun onClickEdit(itemView: View, position: Int) {
-                    println("Edit item at position $position")
-                }
+        if (bundle.getBoolean("isAdmin",false)){
+            shopAdapter = ShopAdapter(mutableListOf()).apply {
+                setOnItemClickListener(object : ShopAdapter.OnItemClickListenerInterface {
+                    override fun onItemClick(itemView: View?, position: Int) {
+                        println("Item at position $position clicked")
+                    }
 
-                override fun onClickDelete(position: Int) {
-                    println("Delete item at position $position")
-                }
-            })
+                    override fun onClickEdit(itemView: View, position: Int) {
+                        println("Edit item at position $position")
+                    }
+
+                    override fun onClickDelete(position: Int) {
+                        println("Delete item at position $position")
+                    }
+                })
+            }
         }
+
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
