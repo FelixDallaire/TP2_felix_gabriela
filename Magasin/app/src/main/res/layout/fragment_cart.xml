@@ -7,25 +7,25 @@
     tools:context=".ui.cart.CartFragment">
 
     <TextView
-        android:id="@+id/tv_total"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_total_price"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="textStart"
-        android:textSize="45sp"
-        android:text="@string/text_total_price"
+        android:textSize="24sp"
+        android:text="@string/total_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_items"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+        android:id="@+id/rv_cart_items"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_total"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_total_price"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/cart_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
