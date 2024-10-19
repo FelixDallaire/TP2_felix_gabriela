@@ -1,5 +1,7 @@
 package com.example.magasin.ui.shop
 
+
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,8 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
         fun onClickEdit(itemView: View, position: Int)
         fun onClickDelete(position: Int)
     }
+
+
 
     lateinit var listener: OnItemClickListenerInterface
 
@@ -40,6 +44,8 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
 
             binding.root.setOnCreateContextMenuListener { menu, v, menuInfo ->
                 val position = adapterPosition
+
+
                 val edit: android.view.MenuItem = menu.add(0, v.id, 0, "Edit")
                 val delete: android.view.MenuItem = menu.add(0, v.id, 0, "Delete")
                 edit.setOnMenuItemClickListener {
@@ -54,6 +60,8 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
                     }
                     false
                 }
+
+
             }
         }
 

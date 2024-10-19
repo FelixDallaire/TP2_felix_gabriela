@@ -2,9 +2,11 @@ package com.example.magasin.ui.shop
 
 import MainViewModel
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +24,11 @@ class ShopFragment : Fragment() {
     private lateinit var shopAdapter: ShopAdapter
     private lateinit var mainViewModel: MainViewModel
 
+
+     var bundle = Bundle()
+     var isAdmin = bundle.getBoolean("isAdmin")
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +43,8 @@ class ShopFragment : Fragment() {
 
         setupRecyclerView()
 
+
+
         return binding.root
     }
 
@@ -48,6 +57,12 @@ class ShopFragment : Fragment() {
         shopViewModel.shopItems.observe(viewLifecycleOwner) { items ->
             shopAdapter.updateItems(items)
         }
+
+        mainViewModel.isAdmin.observe(viewLifecycleOwner) { isAdmin ->
+            binding.floatingActionButton.visibility = if (isAdmin) View.VISIBLE else View.GONE
+        }
+
+
     }
 
     private fun setupRecyclerView() {
@@ -56,6 +71,8 @@ class ShopFragment : Fragment() {
                 override fun onItemClick(itemView: View?, position: Int) {
                     val item = shopAdapter.shopItems[position]
                     mainViewModel.addToCart(item)
+
+                    Toast.makeText(context, "Item ajouté au panier", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onClickEdit(itemView: View, position: Int) {
@@ -79,6 +96,8 @@ class ShopFragment : Fragment() {
         _binding = null
     }
 }
+
+
 
 class ViewModelFactory(private val shopItemDao: ShopItemDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -1,7 +1,9 @@
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.magasin.model.ShopItem
+import com.example.magasin.ui.shop.ShopFragment
 
 class MainViewModel : ViewModel() {
     private val _cartItems = MutableLiveData<MutableList<ShopItem>>(mutableListOf())
@@ -16,5 +18,9 @@ class MainViewModel : ViewModel() {
             val newItem = item.copy(quantity = quantity)
             _cartItems.value = _cartItems.value?.apply { add(newItem) }
         }
+
+
     }
+
+    val isAdmin: MutableLiveData<Boolean> = MutableLiveData(false)
 }
