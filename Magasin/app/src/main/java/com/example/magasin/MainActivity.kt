@@ -73,8 +73,8 @@ class wvMainActivity : AppCompatActivity() {
                 val currentIsAdmin = mainViewModel.isAdmin.value ?: false
                 mainViewModel.isAdmin.value = !currentIsAdmin
 
-                Log.d("AdminMode", "Admin mode switched to: ${!currentIsAdmin}")
-                    return true
+                Log.d("AdminMode", "isAdmin: ${!currentIsAdmin}")
+                return true
 
             }
 

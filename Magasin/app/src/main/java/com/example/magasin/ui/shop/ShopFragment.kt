@@ -25,8 +25,8 @@ class ShopFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
 
 
-     var bundle = Bundle()
-     var isAdmin = bundle.getBoolean("isAdmin")
+
+
 
 
     override fun onCreateView(
@@ -38,6 +38,7 @@ class ShopFragment : Fragment() {
 
         val database = MagasinDatabase.getInstance(requireContext())
         val shopItemDao = database.shopItemDao()
+
         shopViewModel =
             ViewModelProvider(this, ViewModelFactory(shopItemDao)).get(ShopViewModel::class.java)
 
@@ -53,6 +54,7 @@ class ShopFragment : Fragment() {
 
         // Initialize the MainViewModel
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        Log.d("isAdmin",mainViewModel.toString())
 
         shopViewModel.shopItems.observe(viewLifecycleOwner) { items ->
             shopAdapter.updateItems(items)
@@ -66,7 +68,15 @@ class ShopFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        shopAdapter = ShopAdapter(mutableListOf()).apply {
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+
+        mainViewModel.isAdmin.observe(viewLifecycleOwner) { isAdmin ->
+
+        Log.d("isAdmin", "setup isAdmin: $isAdmin ")
+        }
+
+        shopAdapter = ShopAdapter(mutableListOf(),this,mainViewModel).apply {
             setOnItemClickListener(object : ShopAdapter.OnItemClickListenerInterface {
                 override fun onItemClick(itemView: View?, position: Int) {
                     val item = shopAdapter.shopItems[position]

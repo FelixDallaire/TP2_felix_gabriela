@@ -1,15 +1,19 @@
 package com.example.magasin.ui.shop
 
 
+import MainViewModel
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.magasin.databinding.ShopItemBinding
 import com.example.magasin.model.ShopItem
 
-class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
+class ShopAdapter(internal var shopItems: MutableList<ShopItem>,private val fragment: Fragment,private var mainViewModel: MainViewModel ) :
     RecyclerView.Adapter<ShopAdapter.ViewHolder>() {
 
     interface OnItemClickListenerInterface {
@@ -34,6 +38,7 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
 
     inner class ViewHolder(private val binding: ShopItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
 
         init {
             binding.root.setOnClickListener {
@@ -60,7 +65,15 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
                     }
                     false
                 }
+                mainViewModel = ViewModelProvider(fragment).get(MainViewModel::class.java)
 
+
+                mainViewModel.isAdmin.observe(fragment.viewLifecycleOwner) { isAdmin ->
+                    edit.isVisible = isAdmin
+
+
+                    Log.d("AdminMode","isAdmin: "+ isAdmin.toString())
+                }
 
             }
         }
