@@ -120,8 +120,6 @@ abstract class MagasinDatabase : RoomDatabase() {
                                             quantity = 25
                                         )
                                     )
-
-
                                     database.shopItemDao().insertShopItems(shopItems)
                                 }
                             }

@@ -24,4 +24,24 @@ class MainViewModel : ViewModel() {
             _cartItems.value = _cartItems.value?.apply { add(newItem) }
         }
     }
+
+    fun updateCartItem(updatedItem: ShopItem) {
+        _cartItems.value?.let { cart ->
+            val cartItem = cart.find { it.id == updatedItem.id }
+            if (cartItem != null) {
+                cartItem.name = updatedItem.name
+                cartItem.description = updatedItem.description
+                cartItem.price = updatedItem.price
+                cartItem.category = updatedItem.category
+                _cartItems.value = cart
+            }
+        }
+    }
+
+    fun removeFromCart(item: ShopItem) {
+        _cartItems.value?.let { cart ->
+            cart.removeAll { it.id == item.id }
+            _cartItems.value = cart
+        }
+    }
 }

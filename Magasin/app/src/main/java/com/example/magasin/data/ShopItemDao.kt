@@ -13,14 +13,14 @@ interface ShopItemDao {
     @Insert
     fun insertShopItemReturnId(shopItem: ShopItem): Long
 
-    @Insert
-    fun insertShopItems(users: List<ShopItem>): List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertShopItems(shopItems: List<ShopItem>): List<Long>
 
     @Update
-    fun updateUser(shopItem: ShopItem)
+    fun updateShopItem(shopItem: ShopItem)
 
     @Delete
-    fun deleteUser(shopItem: ShopItem)
+    fun deleteShopItem(shopItem: ShopItem)
 
     @Query("SELECT * FROM shop_items")
     fun getAllShopItems(): LiveData<List<ShopItem>>

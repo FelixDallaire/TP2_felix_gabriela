@@ -44,7 +44,7 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>, private var isA
                 }
             }
 
-            binding.root.setOnCreateContextMenuListener { menu, v, menuInfo ->
+            binding.root.setOnCreateContextMenuListener { menu, v, _ ->
                 if (isAdminMode) {
                     val position = adapterPosition
                     val edit: android.view.MenuItem = menu.add(0, v.id, 0, R.string.action_edit)
