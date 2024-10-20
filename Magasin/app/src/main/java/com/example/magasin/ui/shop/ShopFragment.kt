@@ -31,11 +31,7 @@ class ShopFragment : Fragment() {
     ): View {
         _binding = FragmentShopBinding.inflate(inflater, container, false)
 
-        val database = MagasinDatabase.getInstance(requireContext())
-        val shopItemDao = database.shopItemDao()
-        shopViewModel =
-            ViewModelProvider(this, ViewModelFactory(shopItemDao))[ShopViewModel::class.java]
-
+        setupViewModels()
         setupRecyclerView()
 
         return binding.root
@@ -44,24 +40,21 @@ class ShopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        observeAdminMode()
+        observeShopItems()
+        setupFabListener()
+    }
 
-        mainViewModel.isAdminMode.observe(viewLifecycleOwner) { isAdmin ->
-            binding.floatingActionButton.visibility = if (isAdmin) View.VISIBLE else View.GONE
-            shopAdapter.updateAdminMode(isAdmin)
-        }
+    private fun setupViewModels() {
+        val database = MagasinDatabase.getInstance(requireContext())
+        val shopItemDao = database.shopItemDao()
 
-        shopViewModel.shopItems.observe(viewLifecycleOwner) { items ->
-            shopAdapter.updateItems(items)
-        }
-
-        binding.floatingActionButton.setOnClickListener {
-            showAddEditItemDialog()
-        }
+        shopViewModel = ViewModelProvider(this, ViewModelFactory(shopItemDao)).get(ShopViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
 
     private fun setupRecyclerView() {
-        shopAdapter = ShopAdapter(mutableListOf(), false).apply {
+        shopAdapter = ShopAdapter(mutableListOf(), isAdminMode = false).apply {
             setOnItemClickListener(object : ShopAdapter.OnItemClickListenerInterface {
                 override fun onItemClick(itemView: View?, position: Int) {
                     val item = shopItems[position]
@@ -76,26 +69,65 @@ class ShopFragment : Fragment() {
                 override fun onClickDelete(position: Int) {
                     val itemToDelete = shopItems[position]
                     shopViewModel.deleteShopItem(itemToDelete)
-
                     mainViewModel.removeFromCart(itemToDelete)
                 }
             })
         }
 
-        binding.recyclerView.apply {
+        binding.rvShopProductList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = shopAdapter
         }
     }
 
+    private fun observeAdminMode() {
+        mainViewModel.isAdminMode.observe(viewLifecycleOwner) { isAdmin ->
+            binding.fabAddProduct.visibility = if (isAdmin) View.VISIBLE else View.GONE
+            shopAdapter.updateAdminMode(isAdmin)
+        }
+    }
+
+    private fun observeShopItems() {
+        shopViewModel.shopItems.observe(viewLifecycleOwner) { items ->
+            shopAdapter.updateItems(items)
+        }
+    }
+
+    private fun setupFabListener() {
+        binding.fabAddProduct.setOnClickListener {
+            showAddEditItemDialog()
+        }
+    }
+
     private fun showAddEditItemDialog(shopItem: ShopItem? = null) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.item_editor_dialog, null)
-        val etItemName = dialogView.findViewById<EditText>(R.id.etItemName)
-        val etItemDescription = dialogView.findViewById<EditText>(R.id.etItemDescription)
-        val etItemPrice = dialogView.findViewById<EditText>(R.id.etItemPrice)
-        val etItemCategory = dialogView.findViewById<EditText>(R.id.etItemCategory)
-        val etItemQuantity = dialogView.findViewById<EditText>(R.id.etItemQuantity)
+        val etItemName = dialogView.findViewById<EditText>(R.id.et_product_name)
+        val etItemDescription = dialogView.findViewById<EditText>(R.id.et_product_description)
+        val etItemPrice = dialogView.findViewById<EditText>(R.id.et_product_price)
+        val etItemCategory = dialogView.findViewById<EditText>(R.id.et_product_category)
+        val etItemQuantity = dialogView.findViewById<EditText>(R.id.et_product_quantity)
 
+        fillDialogFields(shopItem, etItemName, etItemDescription, etItemPrice, etItemCategory, etItemQuantity)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(if (shopItem == null) R.string.dialog_new_item else R.string.dialog_edit_item)
+            .setView(dialogView)
+            .setPositiveButton(R.string.dialog_save) { _, _ ->
+                saveItemFromDialog(shopItem, etItemName, etItemDescription, etItemPrice, etItemCategory, etItemQuantity)
+            }
+            .setNegativeButton(R.string.dialog_cancel, null)
+            .create()
+            .show()
+    }
+
+    private fun fillDialogFields(
+        shopItem: ShopItem?,
+        etItemName: EditText,
+        etItemDescription: EditText,
+        etItemPrice: EditText,
+        etItemCategory: EditText,
+        etItemQuantity: EditText
+    ) {
         shopItem?.let {
             etItemName.setText(it.name)
             etItemDescription.setText(it.description)
@@ -103,35 +135,34 @@ class ShopFragment : Fragment() {
             etItemCategory.setText(it.category)
             etItemQuantity.setText(it.quantity.toString())
         }
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setTitle(if (shopItem == null) "Add New Item" else "Edit Item")
-            .setView(dialogView)
-            .setPositiveButton("Save") { _, _ ->
-                val name = etItemName.text.toString()
-                val description = etItemDescription.text.toString()
-                val price = etItemPrice.text.toString().toDoubleOrNull() ?: 0.0
-                val category = etItemCategory.text.toString()
-                val quantity = etItemQuantity.text.toString().toIntOrNull() ?: 1
-
-                val newItem = ShopItem(
-                    id = shopItem?.id ?: 0,
-                    name = name,
-                    description = description,
-                    price = price,
-                    category = category,
-                    quantity = quantity
-                )
-                shopViewModel.addOrUpdateShopItem(newItem)
-                mainViewModel.updateCartItem(newItem)
-
-            }
-            .setNegativeButton("Cancel", null)
-            .create()
-
-        dialog.show()
     }
 
+    private fun saveItemFromDialog(
+        shopItem: ShopItem?,
+        etItemName: EditText,
+        etItemDescription: EditText,
+        etItemPrice: EditText,
+        etItemCategory: EditText,
+        etItemQuantity: EditText
+    ) {
+        val name = etItemName.text.toString()
+        val description = etItemDescription.text.toString()
+        val price = etItemPrice.text.toString().toDoubleOrNull() ?: 0.0
+        val category = etItemCategory.text.toString()
+        val quantity = etItemQuantity.text.toString().toIntOrNull() ?: 1
+
+        val newItem = ShopItem(
+            id = shopItem?.id ?: 0,
+            name = name,
+            description = description,
+            price = price,
+            category = category,
+            quantity = quantity
+        )
+
+        shopViewModel.addOrUpdateShopItem(newItem)
+        mainViewModel.updateCartItem(newItem)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.magasin.R
 import com.example.magasin.databinding.ShopItemBinding
 import com.example.magasin.model.ShopItem
+import com.example.magasin.utils.CategoryImageUtils
 
 class ShopAdapter(internal var shopItems: MutableList<ShopItem>, private var isAdminMode: Boolean = false) :
     RecyclerView.Adapter<ShopAdapter.ViewHolder>() {
@@ -44,24 +45,28 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>, private var isA
                 }
             }
 
+            setupContextMenu()
+        }
+
+        private fun setupContextMenu() {
             binding.root.setOnCreateContextMenuListener { menu, v, _ ->
                 if (isAdminMode) {
                     val position = adapterPosition
-                    val edit: android.view.MenuItem = menu.add(0, v.id, 0, R.string.action_edit)
-                    val delete: android.view.MenuItem = menu.add(0, v.id, 0, R.string.action_delete)
-                    edit.setOnMenuItemClickListener {
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onClickEdit(itemView, position)
-                        }
-                        false
+                    createMenuItem(menu, v.id, R.string.action_edit) {
+                        listener.onClickEdit(itemView, position)
                     }
-                    delete.setOnMenuItemClickListener {
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onClickDelete(position)
-                        }
-                        false
+                    createMenuItem(menu, v.id, R.string.action_delete) {
+                        listener.onClickDelete(position)
                     }
                 }
+            }
+        }
+
+        private fun createMenuItem(menu: android.view.ContextMenu, groupId: Int, titleResId: Int, action: () -> Unit) {
+            val menuItem = menu.add(0, groupId, 0, titleResId)
+            menuItem.setOnMenuItemClickListener {
+                action()
+                false
             }
         }
 
@@ -70,15 +75,7 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>, private var isA
             binding.tvProductDescription.text = shopItem.description
             binding.tvProductPrice.text = String.format("%.2f", shopItem.price)
 
-            val imageResId = when (shopItem.category) {
-                "Légumes" -> R.drawable.vegetable_product
-                "Viande" -> R.drawable.meat_product
-                "Dessert" -> R.drawable.dessert_product
-                "Oeufs" -> R.drawable.egg_product
-                "Boisson" -> R.drawable.drink_product
-                "Pain" -> R.drawable.bread_product
-                else -> R.drawable.default_product
-            }
+            val imageResId = CategoryImageUtils.getImageResIdForCategory(shopItem.category)
             binding.ivProductImage.setImageResource(imageResId)
         }
     }

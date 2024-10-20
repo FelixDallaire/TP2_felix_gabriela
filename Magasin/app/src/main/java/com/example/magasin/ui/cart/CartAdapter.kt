@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.magasin.R
 import com.example.magasin.databinding.CartItemBinding
 import com.example.magasin.model.ShopItem
+import com.example.magasin.utils.CategoryImageUtils
 
 class CartAdapter(var cartItems: MutableList<ShopItem>) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
@@ -25,17 +26,9 @@ class CartAdapter(var cartItems: MutableList<ShopItem>) :
     class ViewHolder(private val binding: CartItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cartItem: ShopItem) {
             binding.tvCartProductName.text = cartItem.name
-            binding.tvCartProductQuantity.text = "Qty: ${cartItem.quantity}"
+            binding.tvCartProductQuantity.text = itemView.context.getString(R.string.cart_product_quantity, cartItem.quantity)
 
-            val imageResId = when (cartItem.category) {
-                "Légumes" -> R.drawable.vegetable_product
-                "Viande" -> R.drawable.meat_product
-                "Dessert" -> R.drawable.dessert_product
-                "Oeufs" -> R.drawable.egg_product
-                "Boisson" -> R.drawable.drink_product
-                "Pain" -> R.drawable.bread_product
-                else -> R.drawable.default_product
-            }
+            val imageResId = CategoryImageUtils.getImageResIdForCategory(cartItem.category)
             binding.ivCartProductImage.setImageResource(imageResId)
         }
     }

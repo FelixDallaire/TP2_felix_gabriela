@@ -1,6 +1,5 @@
 package com.example.magasin.ui.cart
 
-import CartViewModel
 import MainViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,12 +32,10 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize the ViewModel
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         setupRecyclerView()
 
-        // Observe changes in the cart items
         mainViewModel.cartItems.observe(viewLifecycleOwner) { items ->
             cartAdapter.cartItems = items
             cartAdapter.notifyDataSetChanged()

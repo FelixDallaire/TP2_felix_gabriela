@@ -6,6 +6,7 @@
     <string name="action_edit">Éditer</string>
     <string name="action_delete">Supprimer</string>
     <string name="total_price">Total: %1$.2f$</string>
+    <string name="cart_product_quantity">Quantité: %1$d</string>
     <string name="menu_option_admin">Admin</string>
     <string name="admin_mode_activated">Mode admin activé</string>
     <string name="admin_mode_deactivated">Mode admin désactivé</string>
@@ -15,4 +16,8 @@
     <string name="item_price">Prix</string>
     <string name="item_description">Description du produit</string>
     <string name="item_name">Nom du produit</string>
+    <string name="dialog_new_item">Nouveau produit</string>
+    <string name="dialog_edit_item">Modification produit</string>
+    <string name="dialog_save">Sauvegarder</string>
+    <string name="dialog_cancel">Annuler</string>
 </resources>
