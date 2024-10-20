@@ -23,7 +23,4 @@ data class ShopItem(
 
     @ColumnInfo(name = "quantity")
     var quantity: Int = 1,
-
-    @ColumnInfo(name = "image")
-    var image: String
 )

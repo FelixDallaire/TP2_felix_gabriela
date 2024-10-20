@@ -36,55 +36,91 @@ abstract class MagasinDatabase : RoomDatabase() {
                                 CoroutineScope(Dispatchers.IO).launch {
                                     val shopItems = listOf(
                                         ShopItem(
-                                            name = "Gourde Éco-responsable",
-                                            description = "Gourde de 24 oz, sans BPA, en acier inoxydable, conçue pour garder les boissons froides jusqu'à 48 heures.",
-                                            price = 25.99,
-                                            category = "Produits Écologiques",
-                                            quantity = 5,
-                                            image = "eco_bottle.png"
+                                            name = "Poivron Rouge",
+                                            description = "Un poivron rouge frais et croquant, parfait pour les salades et les plats cuisinés.",
+                                            price = 1.99,
+                                            category = "Légumes",
+                                            quantity = 20
                                         ),
                                         ShopItem(
-                                            name = "T-shirt en Coton Biologique",
-                                            description = "T-shirt doux, 100% coton biologique, en gris charbon, parfait pour les sorties décontractées ou formelles.",
-                                            price = 30.99,
-                                            category = "Vêtements",
-                                            quantity = 3,
-                                            image = "organic_tshirt.png"
+                                            name = "Carotte Bio",
+                                            description = "Des carottes biologiques croquantes, riches en bêta-carotène et en nutriments.",
+                                            price = 0.99,
+                                            category = "Légumes",
+                                            quantity = 25
                                         ),
                                         ShopItem(
-                                            name = "Clavier Sans Fil en Bambou",
-                                            description = "Clavier durable en bambou avec connectivité Bluetooth, compatible avec plusieurs systèmes d'exploitation.",
-                                            price = 45.99,
-                                            category = "Électronique",
-                                            quantity = 10,
-                                            image = "bamboo_keyboard.png"
+                                            name = "Poulet Frit",
+                                            description = "Poulet parfaitement croustillant, un délice pour tout repas.",
+                                            price = 7.99,
+                                            category = "Viande",
+                                            quantity = 15
                                         ),
                                         ShopItem(
-                                            name = "Pot en Céramique Artisanal",
-                                            description = "Pot en céramique fait main avec une glaçure artistique, idéal pour les plantes d'intérieur et d'extérieur.",
-                                            price = 34.99,
-                                            category = "Décor Maison",
-                                            quantity = 7,
-                                            image = "ceramic_planter.png"
+                                            name = "Porc Grillé",
+                                            description = "Porc grillé juteux et tendre, assaisonné avec un mélange d'épices.",
+                                            price = 8.50,
+                                            category = "Viande",
+                                            quantity = 10
                                         ),
                                         ShopItem(
-                                            name = "Sac à Dos en Cuir Végan",
-                                            description = "Sac à dos durable et élégant fabriqué à partir de cuir végan de haute qualité avec plusieurs poches.",
-                                            price = 52.99,
-                                            category = "Accessoires",
-                                            quantity = 4,
-                                            image = "vegan_backpack.png"
+                                            name = "Glace au Chocolat",
+                                            description = "Glace au chocolat riche faite avec le meilleur cacao.",
+                                            price = 3.50,
+                                            category = "Dessert",
+                                            quantity = 30
                                         ),
                                         ShopItem(
-                                            name = "Grains de Café Gourmet",
-                                            description = "1 lb de grains de café Arabica de première qualité, approvisionnés de manière éthique et torréfiés frais pour garantir la meilleure saveur.",
-                                            price = 17.99,
-                                            category = "Alimentation Gourmet",
-                                            quantity = 15,
-                                            image = "coffee_beans.png"
+                                            name = "Cheesecake",
+                                            description = "Cheesecake onctueux avec une base croustillante de biscuits Graham.",
+                                            price = 4.00,
+                                            category = "Dessert",
+                                            quantity = 20
+                                        ),
+                                        ShopItem(
+                                            name = "Oeufs à la Coque",
+                                            description = "Oeufs parfaitement cuits à la coque, idéals pour une collation rapide ou comme partie d'un petit déjeuner nutritif.",
+                                            price = 1.20,
+                                            category = "Oeufs",
+                                            quantity = 50
+                                        ),
+                                        ShopItem(
+                                            name = "Oeufs Brouillés",
+                                            description = "Oeufs brouillés moelleux et légers, cuits avec un peu de lait et de beurre.",
+                                            price = 1.50,
+                                            category = "Oeufs",
+                                            quantity = 40
+                                        ),
+                                        ShopItem(
+                                            name = "Limonade Fraîche",
+                                            description = "Limonade rafraîchissante faite à partir de citrons fraîchement pressés.",
+                                            price = 2.00,
+                                            category = "Boisson",
+                                            quantity = 25
+                                        ),
+                                        ShopItem(
+                                            name = "Thé Glacé",
+                                            description = "Thé glacé frais et rafraîchissant, la boisson parfaite pour une journée chaude.",
+                                            price = 1.75,
+                                            category = "Boisson",
+                                            quantity = 30
+                                        ),
+                                        ShopItem(
+                                            name = "Pain Fraîchement Cuit",
+                                            description = "Pain chaud, fraîchement sorti du four avec une croûte parfaite.",
+                                            price = 2.50,
+                                            category = "Pain",
+                                            quantity = 30
+                                        ),
+                                        ShopItem(
+                                            name = "Pain Complet",
+                                            description = "Pain complet sain, doux à l'intérieur avec une croûte ferme.",
+                                            price = 2.75,
+                                            category = "Pain",
+                                            quantity = 25
                                         )
-
                                     )
+
 
                                     database.shopItemDao().insertShopItems(shopItems)
                                 }
@@ -100,5 +136,3 @@ abstract class MagasinDatabase : RoomDatabase() {
         }
     }
 }
-
-

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Magasin</string>
+    <string name="app_name">Épicerie</string>
     <string name="title_shop">Shop</string>
     <string name="title_cart">Cart</string>
     <string name="text_total_price">Prix total</string>

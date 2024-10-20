@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.magasin.R
 import com.example.magasin.databinding.ShopItemBinding
 import com.example.magasin.model.ShopItem
 
@@ -61,7 +62,17 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
             binding.tvProductName.text = shopItem.name
             binding.tvProductDescription.text = shopItem.description
             binding.tvProductPrice.text = String.format("%.2f", shopItem.price)
-            // TODO: Add image handling if needed
+
+            val imageResId = when (shopItem.category) {
+                "Légumes" -> R.drawable.vegetable_product
+                "Viande" -> R.drawable.meat_product
+                "Dessert" -> R.drawable.dessert_product
+                "Oeufs" -> R.drawable.egg_product
+                "Boisson" -> R.drawable.drink_product
+                "Pain" -> R.drawable.bread_product
+                else -> R.drawable.default_product
+            }
+            binding.ivProductImage.setImageResource(imageResId)
         }
     }
 

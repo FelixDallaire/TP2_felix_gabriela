@@ -3,6 +3,7 @@ package com.example.magasin.ui.cart
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.magasin.R
 import com.example.magasin.databinding.CartItemBinding
 import com.example.magasin.model.ShopItem
 
@@ -25,7 +26,17 @@ class CartAdapter(var cartItems: MutableList<ShopItem>) :
         fun bind(cartItem: ShopItem) {
             binding.tvCartProductName.text = cartItem.name
             binding.tvCartProductQuantity.text = "Qty: ${cartItem.quantity}"
-            binding.tvCartProductPrice.text = String.format("$%.2f", cartItem.price * cartItem.quantity)
+
+            val imageResId = when (cartItem.category) {
+                "Légumes" -> R.drawable.vegetable_product
+                "Viande" -> R.drawable.meat_product
+                "Dessert" -> R.drawable.dessert_product
+                "Oeufs" -> R.drawable.egg_product
+                "Boisson" -> R.drawable.drink_product
+                "Pain" -> R.drawable.bread_product
+                else -> R.drawable.default_product
+            }
+            binding.ivCartProductImage.setImageResource(imageResId)
         }
     }
 }

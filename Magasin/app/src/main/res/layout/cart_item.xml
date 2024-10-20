@@ -7,9 +7,11 @@
 
     <ImageView
         android:id="@+id/iv_cart_product_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_home_black_24dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="Product Image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,28 +20,25 @@
         android:id="@+id/tv_cart_product_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:text="Product Name"
-        android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="@id/iv_cart_product_image"
+        android:textColor="?attr/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_cart_product_image"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/iv_cart_product_image" />
 
     <TextView
         android:id="@+id/tv_cart_product_quantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:text="Qty: 1"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_cart_product_name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_cart_product_image"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_cart_product_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$19.99"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_cart_product_quantity"
-        app:layout_constraintStart_toEndOf="@id/iv_cart_product_image" />
+        app:layout_constraintTop_toBottomOf="@id/tv_cart_product_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
