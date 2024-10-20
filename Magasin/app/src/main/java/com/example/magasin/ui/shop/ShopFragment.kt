@@ -42,8 +42,11 @@ class ShopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize the MainViewModel
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+        mainViewModel.isAdminMode.observe(viewLifecycleOwner) { isAdmin ->
+            binding.floatingActionButton.visibility = if (isAdmin) View.VISIBLE else View.GONE
+        }
 
         shopViewModel.shopItems.observe(viewLifecycleOwner) { items ->
             shopAdapter.updateItems(items)

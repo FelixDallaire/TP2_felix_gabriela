@@ -1,11 +1,13 @@
 package com.example.magasin
 
+import MainViewModel
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -40,13 +42,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.mn_admin -> {
-                Toast.makeText(this, "Mode admin active", Toast.LENGTH_SHORT).show()
-                return true
+                val mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+                mainViewModel.toggleAdminMode()
+                Toast.makeText(
+                    this,
+                    if (mainViewModel.isAdminMode.value == true)
+                        getString(R.string.admin_mode_activated)
+                    else
+                        getString(R.string.admin_mode_deactivated),
+                    Toast.LENGTH_SHORT
+                ).show()
+                true
             }
 
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
+
 }

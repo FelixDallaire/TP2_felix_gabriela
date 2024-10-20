@@ -7,4 +7,6 @@
     <string name="action_delete">Supprimer</string>
     <string name="total_price">Total: %1$.2f$</string>
     <string name="menu_option_admin">Admin</string>
+    <string name="admin_mode_activated">Mode admin activé</string>
+    <string name="admin_mode_deactivated">Mode admin désactivé</string>
 </resources>
