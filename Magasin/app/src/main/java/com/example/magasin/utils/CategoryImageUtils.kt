@@ -2,13 +2,16 @@ package com.example.magasin.utils
 
 import com.example.magasin.R
 
+/**
+ * Utilitaire pour récupérer les identifiants de ressources d'images en fonction des catégories de produits.
+ */
 object CategoryImageUtils {
 
     /**
-     * Returns the drawable resource ID for a given category.
+     * Retourne l'identifiant de ressource drawable correspondant à une catégorie donnée.
      *
-     * @param category The category of the item.
-     * @return The corresponding drawable resource ID.
+     * @param category La catégorie de l'article.
+     * @return L'identifiant de ressource drawable correspondant.
      */
     fun getImageResIdForCategory(category: String): Int {
         return when (category) {

@@ -12,6 +12,9 @@ import com.example.magasin.R
 import com.example.magasin.databinding.FragmentCartBinding
 import com.example.magasin.model.ShopItem
 
+/**
+ * Un Fragment pour afficher et gérer le panier d'achats de l'utilisateur.
+ */
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
@@ -20,6 +23,14 @@ class CartFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var cartAdapter: CartAdapter
 
+    /**
+     * Crée et retourne la vue de ce fragment, initialisant le binding pour accéder aux composants de l'interface utilisateur.
+     *
+     * @param inflater L'inflater utilisé pour gonfler les layouts du fragment.
+     * @param container Le conteneur parent dans lequel le fragment est inséré.
+     * @param savedInstanceState Un Bundle contenant des données précédemment enregistrées par le fragment.
+     * @return La vue racine du fragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,6 +40,12 @@ class CartFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Appelé immédiatement après onCreateView. Initialise le ViewModel et configure le RecyclerView.
+     *
+     * @param view La vue racine du fragment.
+     * @param savedInstanceState Un Bundle qui contient l'état précédemment enregistré du fragment.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,6 +60,9 @@ class CartFragment : Fragment() {
         }
     }
 
+    /**
+     * Configure le RecyclerView utilisé pour afficher les articles du panier.
+     */
     private fun setupRecyclerView() {
         cartAdapter = CartAdapter(mutableListOf())
         binding.rvCartItems.apply {
@@ -51,11 +71,18 @@ class CartFragment : Fragment() {
         }
     }
 
+    /**
+     * Calcule et affiche le prix total des articles dans le panier.
+     * @param items La liste des articles dans le panier.
+     */
     private fun updateTotalPrice(items: List<ShopItem>) {
         val total = items.sumOf { it.price * it.quantity }
         binding.tvTotalPrice.text = getString(R.string.total_price, total)
     }
 
+    /**
+     * Nettoie les ressources lors de la destruction de la vue du fragment.
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
