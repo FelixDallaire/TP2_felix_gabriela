@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Épicerie</string>
-    <string name="title_shop">Shop</string>
-    <string name="title_cart">Cart</string>
+    <string name="title_shop">Produits</string>
+    <string name="title_cart">Panier</string>
     <string name="text_total_price">Prix total</string>
     <string name="action_edit">Éditer</string>
     <string name="action_delete">Supprimer</string>
     <string name="total_price">Total: %1$.2f$</string>
+    <string name="menu_option_admin">Admin</string>
 </resources>
