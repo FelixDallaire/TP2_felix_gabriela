@@ -32,7 +32,7 @@ class ShopFragment : Fragment() {
         val database = MagasinDatabase.getInstance(requireContext())
         val shopItemDao = database.shopItemDao()
         shopViewModel =
-            ViewModelProvider(this, ViewModelFactory(shopItemDao)).get(ShopViewModel::class.java)
+            ViewModelProvider(this, ViewModelFactory(shopItemDao))[ShopViewModel::class.java]
 
         setupRecyclerView()
 
@@ -42,11 +42,13 @@ class ShopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
 
         mainViewModel.isAdminMode.observe(viewLifecycleOwner) { isAdmin ->
             binding.floatingActionButton.visibility = if (isAdmin) View.VISIBLE else View.GONE
+            shopAdapter.updateAdminMode(isAdmin)
         }
+
 
         shopViewModel.shopItems.observe(viewLifecycleOwner) { items ->
             shopAdapter.updateItems(items)
@@ -54,10 +56,10 @@ class ShopFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        shopAdapter = ShopAdapter(mutableListOf()).apply {
+        shopAdapter = ShopAdapter(mutableListOf(), false).apply {
             setOnItemClickListener(object : ShopAdapter.OnItemClickListenerInterface {
                 override fun onItemClick(itemView: View?, position: Int) {
-                    val item = shopAdapter.shopItems[position]
+                    val item = shopItems[position]
                     mainViewModel.addToCart(item)
                 }
 
@@ -75,11 +77,6 @@ class ShopFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = shopAdapter
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
 

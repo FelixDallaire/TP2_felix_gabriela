@@ -8,8 +8,13 @@ import com.example.magasin.R
 import com.example.magasin.databinding.ShopItemBinding
 import com.example.magasin.model.ShopItem
 
-class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
+class ShopAdapter(internal var shopItems: MutableList<ShopItem>, private var isAdminMode: Boolean = false) :
     RecyclerView.Adapter<ShopAdapter.ViewHolder>() {
+
+    fun updateAdminMode(isAdmin: Boolean) {
+        isAdminMode = isAdmin
+        notifyDataSetChanged()
+    }
 
     interface OnItemClickListenerInterface {
         fun onItemClick(itemView: View?, position: Int)
@@ -40,20 +45,22 @@ class ShopAdapter(internal var shopItems: MutableList<ShopItem>) :
             }
 
             binding.root.setOnCreateContextMenuListener { menu, v, menuInfo ->
-                val position = adapterPosition
-                val edit: android.view.MenuItem = menu.add(0, v.id, 0, "Edit")
-                val delete: android.view.MenuItem = menu.add(0, v.id, 0, "Delete")
-                edit.setOnMenuItemClickListener {
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onClickEdit(itemView, position)
+                if (isAdminMode) {
+                    val position = adapterPosition
+                    val edit: android.view.MenuItem = menu.add(0, v.id, 0, R.string.action_edit)
+                    val delete: android.view.MenuItem = menu.add(0, v.id, 0, R.string.action_delete)
+                    edit.setOnMenuItemClickListener {
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onClickEdit(itemView, position)
+                        }
+                        false
                     }
-                    false
-                }
-                delete.setOnMenuItemClickListener {
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onClickDelete(position)
+                    delete.setOnMenuItemClickListener {
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onClickDelete(position)
+                        }
+                        false
                     }
-                    false
                 }
             }
         }
