@@ -12,7 +12,7 @@
     <string name="admin_mode_deactivated">Mode admin désactivé</string>
     <string name="save">Sauvegarder</string>
     <string name="item_quantity">Quantité</string>
-    <string name="item_category">Catégorie\n</string>
+    <string name="item_category">Catégorie</string>
     <string name="item_price">Prix</string>
     <string name="item_description">Description du produit</string>
     <string name="item_name">Nom du produit</string>

@@ -28,7 +28,7 @@
         android:clickable="true"
         android:src="@android:drawable/ic_menu_add"
         android:focusable="true"
-        android:="Ajouter un élément au panier"
+        android:contentDescription="Ajouter un élément au panier"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
